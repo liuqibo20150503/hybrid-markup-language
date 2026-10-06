@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HML® — Hybrid Markup Language</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0b0f14;
+    --panel: #111820;
+    --border: #1e2a36;
+    --text: #dbe7f0;
+    --dim: #7f95a8;
+    --accent: #4fd1c5;
+    --accent2: #f6c453;
+    --code: #0f151c;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+    line-height: 1.7;
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 18px 0;
+    position: sticky;
+    top: 0;
+    background: rgba(11,15,20,0.92);
+    backdrop-filter: blur(8px);
+    z-index: 10;
+  }
+  .nav { display: flex; justify-content: space-between; align-items: center; }
+  .logo { font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
+  .logo span { color: var(--accent); }
+  .nav-links a { margin-left: 20px; color: var(--dim); font-size: 14px; cursor: pointer; }
+  .nav-links a:hover { color: var(--accent); }
+
+  .hero { padding: 90px 0 70px; text-align: center; }
+  .hero h1 { font-size: 56px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+  .hero h1 span { color: var(--accent); }
+  .hero .tagline { font-size: 20px; color: var(--dim); margin-bottom: 30px; }
+  .btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 12px 26px; border-radius: 8px; font-size: 15px; font-weight: 600; transition: 0.2s; cursor: pointer; }
+  .btn-primary { background: var(--accent); color: #06231f; }
+  .btn-primary:hover { background: #6ee7dc; text-decoration: none; }
+  .btn-ghost { border: 1px solid var(--border); color: var(--text); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+  section { padding: 60px 0; border-top: 1px solid var(--border); scroll-margin-top: 80px; }
+  section h2 { font-size: 28px; margin-bottom: 8px; }
+  section .sub { color: var(--dim); margin-bottom: 32px; }
+
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+  .card h3 { font-size: 17px; margin-bottom: 8px; color: var(--accent); }
+  .card p { color: var(--dim); font-size: 14px; }
+
+  pre {
+    background: var(--code);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    overflow-x: auto;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  code { font-family: "Fira Code", "JetBrains Mono", Consolas, monospace; color: #a8e6cf; }
+  .cmt { color: #4a6070; }
+  .kw  { color: #f6c453; }
+  .fn  { color: #4fd1c5; }
+  .str { color: #e8a87c; }
+  .num { color: #c792ea; }
+
+  .download-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    text-align: center;
+  }
+  .download-box p { color: var(--dim); margin: 8px 0 20px; }
+
+  .faq-item { border-bottom: 1px solid var(--border); padding: 18px 0; }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q { font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .faq-a { color: var(--dim); font-size: 14px; }
+  .faq-a code { background: var(--code); padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+
+  footer { border-top: 1px solid var(--border); padding: 36px 0; text-align: center; color: var(--dim); font-size: 13px; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 38px; }
+    .hero .tagline { font-size: 16px; }
+    .nav-links a { margin-left: 12px; font-size: 13px; }
+    section { padding: 44px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo">HML<span>®</span></div>
+    <nav class="nav-links">
+      <a onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'}); return false;">特性</a>
+      <a onclick="document.getElementById('syntax').scrollIntoView({behavior:'smooth'}); return false;">语法</a>
+      <a onclick="document.getElementById('examples').scrollIntoView({behavior:'smooth'}); return false;">示例</a>
+      <a onclick="document.getElementById('download').scrollIntoView({behavior:'smooth'}); return false;">下载</a>
+      <a onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'}); return false;">常见问题</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>HML<span>®</span></h1>
+    <p class="tagline">Hybrid Markup Language</p>
+    <p class="tagline" style="font-size:16px;">一门为图形与教学设计的轻量语言</p>
+    <div class="btns">
+      <a class="btn btn-primary"
+         onclick="document.getElementById('download').scrollIntoView({behavior:'smooth'}); return false;">
+        下载 HML
+      </a>
+      <a class="btn btn-ghost"
+         onclick="document.getElementById('syntax').scrollIntoView({behavior:'smooth'}); return false;">
+        查看语法
+      </a>
+    </div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <h2>为什么是 HML®</h2>
+    <p class="sub">不追求全能，只追求刚好够用。</p>
+    <div class="features">
+      <div class="card">
+        <h3>单文件实现</h3>
+        <p>整个语言运行时，只有一个 .c 文件。没有依赖地狱，没有复杂构建。</p>
+      </div>
+      <div class="card">
+        <h3>图形优先</h3>
+        <p>内置 SDL2 图形后端。画圆、画线、开窗口，一行搞定。</p>
+      </div>
+      <div class="card">
+        <h3>语法简洁</h3>
+        <p>声明式模式头 + 清晰语句。画一个圆，只要 7 行。</p>
+      </div>
+      <div class="card">
+        <h3>可扩展</h3>
+        <p>内置函数表清晰，想加功能，直接加一个 builtin 就行。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="syntax">
+  <div class="wrap">
+    <h2>语法速查</h2>
+    <p class="sub">一页看完，不用翻文档。</p>
+
+    <pre><code><span class="cmt"># 变量</span>
+<span class="kw">let</span> x = <span class="num">10</span>
+<span class="kw">let</span> s = <span class="str">"hello"</span>
+<span class="kw">let</span> a = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
+
+<span class="cmt"># 输出与输入</span>
+<span class="fn">print</span> x
+<span class="fn">input</span> name
+
+<span class="cmt"># 条件</span>
+<span class="kw">if</span> x &gt; <span class="num">0</span> { ... }
+<span class="kw">else if</span> x &lt; <span class="num">0</span> { ... }
+<span class="kw">else</span> { ... }
+
+<span class="cmt"># 循环</span>
+<span class="kw">while</span> x &lt; <span class="num">10</span> { ... }
+<span class="kw">loop</span> <span class="num">5</span> { ... }
+<span class="kw">loop</span> i <span class="kw">from</span> <span class="num">1</span> <span class="kw">to</span> <span class="num">10</span> { ... }
+<span class="kw">for</span> i = <span class="num">0</span> <span class="kw">to</span> <span class="num">10</span> <span class="kw">step</span> <span class="num">2</span> { ... }
+<span class="kw">foreach</span> x <span class="kw">in</span> arr { ... }
+
+<span class="cmt"># 函数</span>
+<span class="kw">func</span> <span class="fn">add</span>(a, b) { <span class="kw">return</span> a + b }
+
+<span class="cmt"># 运算符</span>
++ - * /  == != &lt; &gt; &lt;= &gt;=
+and or not
++= -= *= /=</code></pre>
+  </div>
+</section>
+
+<section id="examples">
+  <div class="wrap">
+    <h2>示例</h2>
+    <p class="sub">7 行，画出一个窗口和圆。</p>
+
+    <pre><code><span class="cmt">@gfx 400 300 "SDL2 Test"</span>
+
+<span class="fn">gclear</span>(<span class="num">0x101820</span>)
+<span class="fn">gcircle</span>(<span class="num">200</span>, <span class="num">150</span>, <span class="num">80</span>, <span class="num">0xFFCC33</span>)
+<span class="fn">gpresent</span>()
+<span class="fn">gsleep</span>(<span class="num">2000</span>)</code></pre>
+
+    <p class="sub" style="margin-top:20px;">对比 Python + pygame，同样的效果需要 20 行以上。</p>
+  </div>
+</section>
+
+<section id="download">
+  <div class="wrap">
+    <h2>下载</h2>
+    <p class="sub">当前版本：v2.0 · 开源</p>
+
+    <div class="download-box">
+      <h3 style="color:var(--accent);margin-bottom:6px;">HML® v2.0</h3>
+      <p>单文件解释器 + SDL2 图形后端</p>
+      <a href="https://github.com/liuqibo20150503/hybrid-markup-language/archive/refs/heads/main.zip"
+         target="_blank" class="btn btn-primary">下载源码 (zip)</a>
+      <p style="font-size:13px;margin-top:16px;">
+        或访问仓库：
+        <a href="https://github.com/liuqibo20150503/hybrid-markup-language" target="_blank">
+          github.com/liuqibo20150503/hybrid-markup-language
+        </a>
+      </p>
+    </div>
+
+    <div style="margin-top:36px;">
+      <h3 style="color:var(--accent);margin-bottom:8px;">SDL2 运行时</h3>
+      <p class="sub">Windows 下运行图形模式，需要 SDL2 动态库。</p>
+
+      <div class="download-box" style="text-align:left;">
+        <p style="margin:0 0 10px;">
+          <strong>官方地址：</strong>
+          <a href="https://github.com/libsdl-org/SDL/releases" target="_blank">github.com/libsdl-org/SDL/releases</a>
+        </p>
+        <p style="margin:0;color:var(--dim);font-size:14px;">
+          下载后，把 <code>SDL2.dll</code> 放到 <code>hml.exe</code> 同一个目录即可。
+        </p>
+      </div>
+    </div>
+
+    <div style="margin-top:36px;">
+      <h3 style="color:var(--accent);margin-bottom:8px;">使用方法</h3>
+      <p class="sub">三步跑起来。</p>
+
+      <p><strong>1. 准备文件</strong></p>
+      <pre><code>hml.exe
+SDL2.dll
+test-gfx.hml</code></pre>
+
+      <p style="margin-top:20px;"><strong>2. 写一个 test-gfx.hml</strong></p>
+      <pre><code><span class="cmt">@gfx 400 300 "SDL2 Test"</span>
+
+<span class="fn">gclear</span>(<span class="num">0x101820</span>)
+<span class="fn">gcircle</span>(<span class="num">200</span>, <span class="num">150</span>, <span class="num">80</span>, <span class="num">0xFFCC33</span>)
+<span class="fn">gpresent</span>()
+<span class="fn">gsleep</span>(<span class="num">2000</span>)</code></pre>
+
+      <p style="margin-top:20px;"><strong>3. 运行</strong></p>
+      <pre><code>hml.exe test-gfx.hml</code></pre>
+
+      <p style="margin-top:20px;color:var(--dim);font-size:14px;">
+        出现黑底黄圆窗口，即表示 SDL2 配置成功。
+      </p>
+    </div>
+
+    <div style="margin-top:36px;">
+      <h3 style="color:var(--accent);margin-bottom:8px;">从源码编译</h3>
+      <p class="sub">需要 MinGW-w64 + SDL2 开发库。</p>
+
+      <p><strong>命令行模式（无图形）：</strong></p>
+      <pre><code>gcc hml.c -o hml.exe -DNO_GRAPHICS -O2</code></pre>
+
+      <p style="margin-top:20px;"><strong>图形模式（需要 SDL2）：</strong></p>
+      <pre><code>gcc hml.c -o hml.exe -lmingw32 -lSDL2main -lSDL2 -lm -O2</code></pre>
+
+      <p style="margin-top:20px;color:var(--dim);font-size:14px;">
+        如果你用的是 MSYS2 / UCRT64，也可以直接：
+      </p>
+      <pre><code>pacman -S mingw-w64-ucrt-x86_64-SDL2</code></pre>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>常见问题</h2>
+    <p class="sub">这几个坑，基本人人都会踩。</p>
+
+    <div class="faq-item">
+      <div class="faq-q">1. 提示找不到 SDL2.dll</div>
+      <div class="faq-a">
+        把 <code>SDL2.dll</code> 放到 <code>hml.exe</code> 同一个目录。
+        不是系统目录，不是桌面，是 exe 旁边。
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">2. 提示 undefined reference to `WinMain'</div>
+      <div class="faq-a">
+        编译时缺少 SDL2 的入口库。加上
+        <code>-lmingw32 -lSDL2main</code> 即可。
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">3. 窗口一闪而过</div>
+      <div class="faq-a">
+        <code>gsleep</code> 时间太短，或者没写。
+        至少写 <code>gsleep(2000)</code> 让它停 2 秒。
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">4. 提示“图形未启用”</div>
+      <div class="faq-a">
+        编译时没加 SDL2 参数。去掉 <code>-DNO_GRAPHICS</code>，
+        改用 <code>-lmingw32 -lSDL2main -lSDL2</code> 重新编译。
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    HML® — Hybrid Markup Language<br>
+    源码仓库：
+    <a href="https://github.com/liuqibo20150503/hybrid-markup-language" target="_blank">
+      github.com/liuqibo20150503/hybrid-markup-language
+    </a><br>
+    Built by one person, on a phone.
+  </div>
+</footer>
+
+</body>
+</html>
